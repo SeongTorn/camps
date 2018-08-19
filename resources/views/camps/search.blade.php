@@ -3,7 +3,7 @@
 @section('main')
 	<section class="mbr-section info1 cid-qQXqFHEWew" id="info1-2p">
 		<div class="container">
-			{!! Form::open(['url' => 'camps/search', 'method' => 'post']) !!}	
+			{!! Form::open(['url' => 'camps/search', 'method' => 'post']) !!}
 			<div class="row justify-content-center content-row">
 				<div class="media-container-column title col-12 col-lg-7 col-md-6">
 					<h3 class="mbr-section-subtitle align-left mbr-light pb-3 mbr-fonts-style display-5">To find a CodeSpace Camp near you</h3>

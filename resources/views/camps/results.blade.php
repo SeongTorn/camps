@@ -31,7 +31,7 @@
     <div class="media-container-column mbr-white col-md-12">
       <h3 class="mbr-section-subtitle py-3 mbr-fonts-style display-5">&nbsp;</h3>
       <h1 class="mbr-section-title py-3 mbr-fonts-style display-2">
-          We've found the closest&nbsp;<strong>CodeSpace Camps</strong>&nbsp;to Kellyville Ridge NSW.
+        We've found the closest&nbsp;<strong>CodeSpace Camps</strong>&nbsp;to Kellyville Ridge NSW.
       </h1>
       <p class="mbr-text py-3 mbr-fonts-style display-5">
         CodeSpace Education runs a range of School Holiday CodeSpace Camps all over Australia.<br><br>We have curated the closest workshops for you below.
@@ -60,6 +60,7 @@
 
 <section class="features3 cid-qQWAzjWbWN">
   <div class="container">
+    {!! Form::open(['url' => 'camps/register', 'method' => 'post', 'role' => 'form']) !!}
     <div class="media-container-row">
       @foreach ($camps as $camp)
         <div class="card p-3 col-12 col-md-6 col-lg-4">
@@ -70,38 +71,29 @@
             <div class="card-box">
               <h4 class="card-title mbr-fonts-style display-7">{{ $camp->topic }}</h4>
               <p class="mbr-text mbr-fonts-style display-7">{{ $camp->topicDesc }}<br><br></p>
-              <p class="mbr-section-text  align-center mbr-fonts-style display-7"><span class="mbri-calendar">&nbsp;</span> {{ $camp->startDate }} {{ $camp->days }}</p>
-              <p class="mbr-section-text  align-center mbr-fonts-style display-7"><span class="mbri-clock">&nbsp;</span> {{ $camp->startTime }} - {{ $camp->endTime }} with drop off from {{ $camp->kidsArrive }} and pickup until {{ $camp->kidsDepart }}</p>
+              <p class="mbr-section-text  align-center mbr-fonts-style display-7"><span class="mbri-calendar">&nbsp;</span> {{ $camp->startDate }} ({{ $camp->days == 0 ? ($camp->days + 1).' day camp' : ($camp->days + 1).' days camp' }})</p>
+              <p class="mbr-section-text  align-center mbr-fonts-style display-7"><span class="mbri-clock">&nbsp;</span> {{ $camp->startTime }} - {{ $camp->endTime }} with drop off from {{ $camp->arriveTime }} and pickup until {{ $camp->departTime }}</p>
               <p class="mbr-section-text  align-center mbr-fonts-style display-7"><span class="mbri-pin">&nbsp;</span>{{ $camp->name }}</p>
               <p class="mbr-section-text  align-center mbr-fonts-style display-7"><span class="mbri-user">&nbsp;</span> Ages {{ $camp->ages }}</p>
               <p class="mbr-section-text  align-center mbr-fonts-style display-7"><span class="mbri-sale">&nbsp;</span> $99</p>
             </div>
             <div class="mbr-section-btn text-center">
-              <a href="camp_details/?camp_id=1" class="btn btn-primary display-4">
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="mbrib-star mbr-iconfont mbr-iconfont-btn"></span> 
-                Learn More 
-                &nbsp;&nbsp;&nbsp;&nbsp;
-              </a>
+              {!! Html::decode(link_to('camps/details','&nbsp;&nbsp;&nbsp;&nbsp;<span class="mbrib-star mbr-iconfont mbr-iconfont-btn"></span> Learn More &nbsp;&nbsp;&nbsp;&nbsp;', ['class'=>'btn btn-primary display-4'])) !!}
             </div>
             <div class="mbr-section-btn text-center">
-              <a href="camp_details/?camp_id=1" class="btn btn-secondary display-4">
-                &nbsp;&nbsp;
-                <span class="mbrib-rocket mbr-iconfont mbr-iconfont-btn"></span> 
-                Register Now 
-                &nbsp;&nbsp;
-              </a>
+              {!! Html::decode(link_to('camps/register','&nbsp;&nbsp;<span class="mbrib-rocket mbr-iconfont mbr-iconfont-btn"></span> Register Now &nbsp;&nbsp;', ['class'=>'btn btn-secondary display-4'])) !!}
             </div>
             <br>
             <br>
             <div class="alert">
-              <strong>	&#9888; In High Demand!</strong> 
+              <strong>	&#9888; In High Demand!</strong>
               This camp only has 6 spaces available.
             </div>
           </div>
         </div>
       @endforeach
     </div>
+    {!! Form::close() !!}
   </div>
 </section>
 
@@ -139,7 +131,7 @@
                     <input type="text" class="form-control px-3" name="postcode" placeholder="Postcode" required="" >
                   </div>
                 </div>
-                <span class="input-group-btn">  
+                <span class="input-group-btn">
                   <button type="submit" class="btn btn-secondary btn-form display-4">Next</button>
                 </span>
             </form>

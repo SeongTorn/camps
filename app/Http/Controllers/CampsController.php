@@ -9,48 +9,33 @@ use Illuminate\Support\Facades\Log;
 
 class CampsController extends Controller
 {
-  public function getPostcodeLongitudeLatitude($postcode, $country = 'AUS')
-  {
-    // Form the API url
-    $url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' .
-        intval($postcode) . '+' . $country . '&sensor=false';
-
-    // Make the API call
-    $result = @file_get_contents($url);
-    $geoDetails = json_decode($result);
-
-    // If a successful call, fetch the long/lat
-    if ($geoDetails->status === 'OK' &&
-        isset($geoDetails->results[0]->geometry->location))
-    {
-        return $geoDetails->results[0]->geometry->location;
+  public function show(Request $request, $view)
+	{
+    switch ($view) {
+      case 'login':
+        return view('auth.login');
+        break;
+      case 'register':
+        return view('camps.parentdetails1');
+        break;
+      case 'details':
+        return view('camps.campdetails');
+        break;
     }
+    return view('errors.404');
   }
 
-  public function vincentyDistance($latFrom, $longForm, $latTo, $longTo, $earthRadius = 6371000)
+  public function postRegister2(Request $request)
   {
-    // Convert the longitude and latitude from degrees to radians
-    $latFrom = deg2rad($latFrom);
-    $lonFrom = deg2rad($longForm);
-    $latTo = deg2rad($latTo);
-    $lonTo = deg2rad($longTo);
-
-    // Mathematics calculations
-    $lonDelta = $lonTo - $lonFrom;
-    $angle = atan2(
-      sqrt(pow(cos($latFrom) * sin($latTo) - sin($latFrom) * cos($latTo) * cos($lonDelta), 2) + pow(cos($latTo) * sin($lonDelta), 2)),
-      sin($latFrom) * sin($latTo) + cos($latFrom) * cos($latTo) * cos($lonDelta)
-    );
-
-    return $angle * $earthRadius;
+    return view('camps.parentdetails2');
   }
 
-  public function postSearch(Request $request) 
+  public function postSearch(Request $request)
   {
-    $post_code = $request->post_code;
+    /*
     $venues = DB::table('venues')->get();
     $postcode1 = '2126';
-    foreach($venues as $venue) {     
+    foreach($venues as $venue) {
       $source = $this->getPostcodeLongitudeLatitude($postcode1);
       $dest = $this->getPostcodeLongitudeLatitude($venue->postcode);
       $distance = $this->vincentyDistance($source->lat, $source->lng, $dest->lat, $dest->lng);
@@ -58,23 +43,32 @@ class CampsController extends Controller
       print('<br>');
       print($distance);
       print('<br>');
-    }
+    }*/
+    /*$url = 'https://maps.googleapis.com/maps/api/geocode/json?address=2111,AU';
+    $result = @file_get_contents($url);
+    print($result);
+    $object = json_decode($result);
+    print($object->status);*/
+    $post_code = $request->post_code;
     $camps = DB::table('venues')
                   ->join('workshops', 'venues.id', '=', 'workshops.venueId')
                   ->join('topics', 'topics.topicId', '=', 'workshops.topicId')
                   ->where('venues.postcode', $post_code)
                   ->orWhere('venues.suburb', $post_code)
-                  ->select('venues.name', 'workshops.*', DB::raw('DATEDIFF(workshops.startDate, workshops.endDate) as days'),'topics.topicname as topic', 'topics.shortDesc as topicDesc', 'topics.age_groups as ages', 'imageUrl as topicImage')
+                  ->select('venues.name',
+                            'workshops.*',
+                            DB::raw('DATEDIFF(workshops.startDate, workshops.endDate) as days'),
+                            DB::raw('TIME_FORMAT(workshops.startTime, "%h:%i%p") as startTime'),
+                            DB::raw('TIME_FORMAT(workshops.endTime, "%h:%i%p") as endTime'),
+                            DB::raw('TIME_FORMAT(workshops.kidsArrive, "%h:%i%p") as arriveTime'),
+                            DB::raw('TIME_FORMAT(workshops.kidsDepart, "%h:%i%p") as departTime'),
+                            'topics.topicname as topic',
+                            'topics.shortDesc as topicDesc',
+                            'topics.age_groups as ages',
+                            'imageUrl as topicImage')
                   ->limit(5)
                   ->get();
-    foreach($camps as $camp) {
-      $camp->days = $camp->days + 1;
-      if ($camp->days == 1) {
-        $camp->days = '('.$camp->days.' day camp'.')';
-      } else {
-        $camp->days = '('.$camp->days.' days camp'.')';
-      }      
-    }
-    //return view('camps.results', compact('camps'));
+
+    return view('camps.results', compact('camps'));
 	}
 }

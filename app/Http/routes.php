@@ -4,7 +4,7 @@ Route::group(['middleware' => ['web']], function () {
 
 	// Home
 	Route::get('/', [
-		'uses' => 'HomeController@index', 
+		'uses' => 'HomeController@index',
 		'as' => 'home'
 	]);
 	Route::get('language/{lang}', 'HomeController@language')->where('lang', '[A-Za-z_-]+');
@@ -52,6 +52,7 @@ Route::group(['middleware' => ['web']], function () {
 	//Camps
 	Route::resource('camps', "CampsController");
   Route::post('camps/search', "CampsController@postSearch");
+  Route::post('camps/register2', "CampsController@postRegister2");
 
 	// User
 	Route::get('user/sort/{role}', 'UserController@indexSort');

@@ -6,9 +6,9 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>{{ trans('front/site.title') }}</title>
-		<meta name="description" content="">	
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 
 		@yield('head')
 		{{ HTML::style('assets/web/assets/mobirise-icons-bold/mobirise-icons-bold.css') }}
@@ -19,10 +19,11 @@
 		{{ HTML::style('assets/bootstrap/css/bootstrap-reboot.min.css') }}
 		{{ HTML::style('assets/dropdown/css/style.css') }}
 		{{ HTML::style('assets/socicon/css/styles.css') }}
-		{{ HTML::style('assets/theme/css/style.css') }}
+    {{ HTML::style('assets/theme/css/style.css') }}
+    {{ HTML::style('assets/gallery/style.css') }}
 		{{ HTML::style('assets/mobirise/css/mbr-additional.css') }}
 
-	</head> 
+	</head>
 
   <body>
 		<header role="banner">
@@ -79,7 +80,7 @@
 		<main role="main">
 			@if(session()->has('ok'))
 				@include('partials/error', ['type' => 'success', 'message' => session('ok')])
-			@endif	
+			@endif
 			@if(isset($info))
 				@include('partials/error', ['type' => 'info', 'message' => $info])
 			@endif
@@ -141,10 +142,21 @@
 		{!! HTML::script('assets/popper/popper.min.js') !!}
 		{!! HTML::script('assets/tether/tether.min.js') !!}
 		{!! HTML::script('assets/bootstrap/js/bootstrap.min.js') !!}
-		{!! HTML::script('assets/dropdown/js/script.min.js') !!}
-		{!! HTML::script('assets/touchswipe/jquery.touch-swipe.min.js') !!}
-		{!! HTML::script('assets/smoothscroll/smooth-scroll.js') !!}
-		{!! HTML::script('assets/theme/js/script.js') !!}
-	
+
+    {!! HTML::script('assets/parallax/jarallax.min.js') !!}
+    {!! HTML::script('assets/mbr-tabs/mbr-tabs.js') !!}
+    {!! HTML::script('assets/masonry/masonry.pkgd.min.js') !!}
+    {!! HTML::script('assets/imagesloaded/imagesloaded.pkgd.min.js') !!}
+    {!! HTML::script('assets/smoothscroll/smooth-scroll.js') !!}
+    {!! HTML::script('assets/vimeoplayer/jquery.mb.vimeo_player.js') !!}
+    {!! HTML::script('assets/touchswipe/jquery.touch-swipe.min.js') !!}
+    {!! HTML::script('assets/mbr-switch-arrow/mbr-switch-arrow.js') !!}
+    {!! HTML::script('assets/dropdown/js/script.min.js') !!}
+    {!! HTML::script('assets/bootstrapcarouselswipe/bootstrap-carousel-swipe.js') !!}
+    {!! HTML::script('assets/theme/js/script.js') !!}
+    {!! HTML::script('assets/slidervideo/script.js') !!}
+    {!! HTML::script('assets/gallery/player.min.js') !!}
+    {!! HTML::script('assets/gallery/script.js') !!}
+
   </body>
 </html>
