@@ -60,8 +60,8 @@ class AuthController extends Controller
 
 		if(!$auth->validate($credentials)) {
 			if ($throttles) {
-	            $this->incrementLoginAttempts($request);
-	        }
+        $this->incrementLoginAttempts($request);
+      }
 
 			return redirect('/auth/login')
 				->with('error', trans('front/login.credentials'))
@@ -72,8 +72,8 @@ class AuthController extends Controller
 
 		if($user->confirmed) {
 			if ($throttles) {
-                $this->clearLoginAttempts($request);
-            }
+        $this->clearLoginAttempts($request);
+      }
 
 			$auth->login($user, $request->has('memory'));
 
@@ -123,8 +123,7 @@ class AuthController extends Controller
 		$confirmation_code)
 	{
 		$user = $user_gestion->confirm($confirmation_code);
-
-        return redirect('/')->with('ok', trans('front/verify.success'));
+    return redirect('/')->with('ok', trans('front/verify.success'));
 	}
 
 	/**

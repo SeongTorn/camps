@@ -49,6 +49,9 @@ Route::group(['middleware' => ['web']], function () {
 		'except' => ['show', 'edit']
 	]);
 
+	//Camps
+	Route::resource('camps', "CampsController");
+  Route::post('camps/search', "CampsController@postSearch");
 
 	// User
 	Route::get('user/sort/{role}', 'UserController@indexSort');
