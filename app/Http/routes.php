@@ -50,8 +50,11 @@ Route::group(['middleware' => ['web']], function () {
 	]);
 
 	//Camps
-	Route::resource('camps', "CampsController");
+  //Route::resource('camps', "CampsController");
+  Route::get('camps', 'CampsController@index');
   Route::post('camps/search', "CampsController@postSearch");
+  Route::get('camps/details/{id}', "CampsController@postCampDetails");
+  Route::get('camps/register', "CampsController@postRegister");
   Route::post('camps/register2', "CampsController@postRegister2");
 
 	// User

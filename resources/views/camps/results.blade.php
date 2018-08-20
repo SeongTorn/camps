@@ -78,7 +78,7 @@
               <p class="mbr-section-text  align-center mbr-fonts-style display-7"><span class="mbri-sale">&nbsp;</span> $99</p>
             </div>
             <div class="mbr-section-btn text-center">
-              {!! Html::decode(link_to('camps/details','&nbsp;&nbsp;&nbsp;&nbsp;<span class="mbrib-star mbr-iconfont mbr-iconfont-btn"></span> Learn More &nbsp;&nbsp;&nbsp;&nbsp;', ['class'=>'btn btn-primary display-4'])) !!}
+              {!! Html::decode(link_to('camps/details/'.$camp->id,'&nbsp;&nbsp;&nbsp;&nbsp;<span class="mbrib-star mbr-iconfont mbr-iconfont-btn"></span> Learn More &nbsp;&nbsp;&nbsp;&nbsp;', ['class'=>'btn btn-primary display-4'])) !!}
             </div>
             <div class="mbr-section-btn text-center">
               {!! Html::decode(link_to('camps/register','&nbsp;&nbsp;<span class="mbrib-rocket mbr-iconfont mbr-iconfont-btn"></span> Register Now &nbsp;&nbsp;', ['class'=>'btn btn-secondary display-4'])) !!}

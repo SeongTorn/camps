@@ -9,6 +9,29 @@ use Illuminate\Support\Facades\Log;
 
 class CampsController extends Controller
 {
+  public function index()
+  {
+    return view('camps.create-account');
+  }
+
+  public function postCampDetails(Request $request, $id)
+  {
+    $camp = DB::table('workshops')
+                  ->join('venues', 'venues.id', '=', 'workshops.venueId')
+                  ->join('topics', 'topics.topicId', '=', 'workshops.topicId')
+                  ->where('workshops.id', $id)
+                  ->select('venues.name',
+                            'workshops.*',
+                            DB::raw('DATEDIFF(workshops.startDate, workshops.endDate) as days'),
+                            DB::raw('TIME_FORMAT(workshops.startTime, "%h:%i%p") as startTime'),
+                            DB::raw('TIME_FORMAT(workshops.endTime, "%h:%i%p") as endTime'),
+                            DB::raw('TIME_FORMAT(workshops.kidsArrive, "%h:%i%p") as arriveTime'),
+                            DB::raw('TIME_FORMAT(workshops.kidsDepart, "%h:%i%p") as departTime'),
+                            'topics.*')
+                  ->get();
+    return view('camps.campdetails')->with('camp', $camp[0]);
+  }
+/*
   public function show(Request $request, $view)
 	{
     switch ($view) {
@@ -24,10 +47,15 @@ class CampsController extends Controller
     }
     return view('errors.404');
   }
-
+*/
   public function postRegister2(Request $request)
   {
     return view('camps.parentdetails2');
+  }
+
+  public function postRegister(Request $request)
+  {
+    return view('camps.parentdetails1');
   }
 
   public function postSearch(Request $request)

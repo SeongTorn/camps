@@ -1,40 +1,55 @@
-@extends('front.template')
+@extends('template')
 
 @section('main')
-	<div class="row">
-		<div class="box">
-			<div class="col-lg-12">
-				@if(session()->has('error'))
-					@include('partials/error', ['type' => 'danger', 'message' => session('error')])
-				@endif	
-				<hr>	
-				<h2 class="intro-text text-center">{{ trans('front/password.title-reset') }}</h2>
-				<hr>
-				<p>{{ trans('front/password.reset-info') }}</p>		
+<section class="engine"><a href="https://mobirise.me/e">make a website</a></section><section class="mbr-section content4 cid-qZDAwBu00e" id="content4-av">
+  <div class="container">
+    <div class="media-container-row">
+      <div class="title col-12 col-md-8">
+        <h2 class="align-center pb-3 mbr-fonts-style display-2"><br><br>Reset Password</h2>
+      </div>
+    </div>
+  </div>
+</section>
 
-				{!! Form::open(['url' => 'password/reset', 'method' => 'post', 'role' => 'form']) !!}	
+<section class="mbr-section article content1 cid-qZDAwC1GdG" id="content1-aw">
+  <div class="container">
+    <div class="media-container-row">
+      <div class="mbr-text col-12 col-md-8 mbr-fonts-style display-7">
+        <div class="col-md-12" data-for="name">
+          <div class="form-group">
+            <label class="form-control-label mbr-fonts-style display-7" for="name-form1-9a">Password*</label>
+            <input type="password" class="form-control" name="name" data-form-field="Name" required="" placeholder="Password" id="name-form1-9a">
+          </div>
+        </div>
+        <div class="col-md-12" data-for="name">
+          <div class="form-group">
+            <label class="form-control-label mbr-fonts-style display-7" for="name-form1-9a">Confirm*</label>
+            <input type="password" class="form-control" name="name" data-form-field="Name" required="" placeholder="Confirm Password" id="name-form1-9a">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-					<div class="row">
+<section class="mbr-section content8 cid-qZDAwCi9Op" id="content8-ax">
+  <div class="container">
+    <div class="media-container-row title">
+      <div class="col-12 col-md-8">
+        <div class="mbr-section-btn align-center"><a class="btn btn-secondary display-4" href="https://mobirise.com"><span class="mbrib-login mbr-iconfont mbr-iconfont-btn"></span>Login</a></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-						{!! Form::hidden('token', $token) !!}
-						{!! Form::control('email', 6, 'email', $errors, trans('front/password.email')) !!}
-						{!! Form::control('password', 6, 'password', $errors, trans('front/password.password'), null, [trans('front/password.warning'), trans('front/password.warning-password')]) !!}
-						{!! Form::control('password', 6, 'password_confirmation', $errors, trans('front/password.confirm-password')) !!}
-						{!! Form::submit(trans('front/form.send'), ['col-lg-12']) !!}
-
-					</div>
-
-				{!! Form::close() !!}
-
-			</div>
-		</div>
-	</div>
-@stop
-
-@section('scripts')
-
-	<script>
-		$(function() { $('.badge').popover();	});
-	</script>
-
-@stop
+<section class="mbr-section content4 cid-qZDAwCxZg1" id="content4-ay">
+  <div class="container">
+    <div class="media-container-row">
+      <div class="title col-12 col-md-8">
+        <h2 class="align-center pb-3 mbr-fonts-style display-2">&nbsp;</h2>
+        <h3 class="mbr-section-subtitle align-center mbr-light mbr-fonts-style display-5"></h3>
+      </div>
+    </div>
+  </div>
+</section>
+@endsection

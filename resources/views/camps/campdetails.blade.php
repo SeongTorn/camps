@@ -54,17 +54,10 @@
   <div class="container">
     <div class="media-container-row">
       <div class="mbr-text col-12 col-md-8 mbr-fonts-style display-7">
-        <p>Minecraft is one of the most popular games of all time: every month, almost 75 million players worldwide explore and build new worlds.</p>
-        <p><br></p>
-        <p>At CodeSpace Education, we turn Minecraft into more than a game—we give kids the opportunity to create their own modifications to the Minecraft world and learn to code at the same time.&nbsp;</p>
-        <p><br></p>
-        <p>In this school holiday workshop, students learn all about Modding—using computer code to create their own modifications to the Minecraft world. They’ll create jetpacks, lightning swords, and more, while also learning the invaluable skills of logic and problem solving through the use of event-based coding.&nbsp;</p>
-        <p><br></p>
-        <p>And the best part? Every student keeps their own mods to keep the fun going at home. &nbsp;</p>
-        <p><br></p>
-        <p>This Minecraft Modding class is an awesome educational experience and our most popular workshop to date. It usually books out 100%, so make sure to snag your spot now.</p>
-        <p><br></p>
-        <p>Please note: This is not an official Minecraft product, and is not approved by or associated with Mojang.&nbsp;</p>
+        @for($i = 1; $i <= 5; $i++)
+          <p> {!! $camp->{'desc_'.$i} !!} </p>
+          <p><br></p>
+        @endfor
       </div>
     </div>
   </div>
@@ -132,7 +125,7 @@
                 Details
               </h4>
               <p class="mbr-section-text  align-center mbr-fonts-style display-7">
-                Date: 25th September 2018<br>Times: 9am - 3pm
+                {!! $camp->startDate !!}<br>Times: {!! $camp->startTime !!} - {!! $camp->endTime !!}
               </p>
             </div>
           </div>
