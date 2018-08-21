@@ -3,12 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\ParentDetail;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\PostController;
 
 class CampsController extends Controller
 {
+  private $postController;
+
+  public function __construct()
+  {
+    $this->postController = new PostController();
+  }
+
   public function index()
   {
     return view('camps.create-account');
@@ -16,87 +26,130 @@ class CampsController extends Controller
 
   public function postCampDetails(Request $request, $id)
   {
-    $camp = DB::table('workshops')
-                  ->join('venues', 'venues.id', '=', 'workshops.venueId')
-                  ->join('topics', 'topics.topicId', '=', 'workshops.topicId')
-                  ->where('workshops.id', $id)
-                  ->select('venues.name',
-                            'workshops.*',
-                            DB::raw('DATEDIFF(workshops.startDate, workshops.endDate) as days'),
-                            DB::raw('TIME_FORMAT(workshops.startTime, "%h:%i%p") as startTime'),
-                            DB::raw('TIME_FORMAT(workshops.endTime, "%h:%i%p") as endTime'),
-                            DB::raw('TIME_FORMAT(workshops.kidsArrive, "%h:%i%p") as arriveTime'),
-                            DB::raw('TIME_FORMAT(workshops.kidsDepart, "%h:%i%p") as departTime'),
-                            'topics.*')
+    $camp = DB::table('camps')
+                  ->join('locations', 'locations.id', '=', 'camps.venue_id')
+                  ->join('ages', 'camps.age_id', '=', 'ages.id')
+                  ->join('workshops', 'camps.workshop_id', '=', 'workshops.id')
+                  ->leftJoin('enrolments', 'enrolments.camp_id', '=', 'camps.id')
+                  ->select('locations.name',
+                            'camps.*',
+                            DB::raw('DATEDIFF(camps.start_date, camps.end_date) as days'),
+                            DB::raw('TIME_FORMAT(camps.start_time, "%h:%i%p") as startTime'),
+                            DB::raw('TIME_FORMAT(camps.end_time, "%h:%i%p") as endTime'),
+                            DB::raw('TIME_FORMAT(camps.kids_arrive_time, "%h:%i%p") as arriveTime'),
+                            DB::raw('TIME_FORMAT(camps.kids_depart_time, "%h:%i%p") as departTime'),
+                            'ages.age_desc as ages',
+                            'workshops.name as topic',
+                            'workshops.content',
+                            'workshops.short_desc',
+                            'workshops.long_desc',
+                            'workshops.why_attend',
+                            'workshops.image',
+                            DB::raw('COUNT(enrolments.id) as sold'))
+                  ->where('camps.id', $id)
+                  ->groupBy('camps.id')
                   ->get();
     return view('camps.campdetails')->with('camp', $camp[0]);
   }
-/*
-  public function show(Request $request, $view)
-	{
-    switch ($view) {
-      case 'login':
-        return view('auth.login');
-        break;
-      case 'register':
-        return view('camps.parentdetails1');
-        break;
-      case 'details':
-        return view('camps.campdetails');
-        break;
-    }
-    return view('errors.404');
-  }
-*/
-  public function postRegister2(Request $request)
+
+  public function postRegister(Request $request, $id)
   {
-    return view('camps.parentdetails2');
+    return view('camps.parentdetails1')->with('id', $id);
   }
 
-  public function postRegister(Request $request)
+  public function postRegister2(Request $request)
   {
-    return view('camps.parentdetails1');
+    $pDetail = new ParentDetail;
+    $pDetail->first_name = $request->get('first_name');
+    $pDetail->last_name = $request->get('last_name');
+    $pDetail->email = $request->get('email');
+    $pDetail->phone = $request->get('phone');
+    $pDetail->save();
+    //return view('camps.parentdetails2');
+  }
+
+  public function toNoCampPage(Request $request)
+  {
+    $postcode = $request->get('postcode');
+    return redirect('https://url.learncode.com.au/no-camps-in-area/?lead-postcode='.$postcode);
   }
 
   public function postSearch(Request $request)
   {
-    /*
-    $venues = DB::table('venues')->get();
-    $postcode1 = '2126';
-    foreach($venues as $venue) {
-      $source = $this->getPostcodeLongitudeLatitude($postcode1);
-      $dest = $this->getPostcodeLongitudeLatitude($venue->postcode);
-      $distance = $this->vincentyDistance($source->lat, $source->lng, $dest->lat, $dest->lng);
-      print($postcode1." - ".$venue->postcode);
-      print('<br>');
-      print($distance);
-      print('<br>');
-    }*/
-    /*$url = 'https://maps.googleapis.com/maps/api/geocode/json?address=2111,AU';
-    $result = @file_get_contents($url);
-    print($result);
-    $object = json_decode($result);
-    print($object->status);*/
-    $post_code = $request->post_code;
-    $camps = DB::table('venues')
-                  ->join('workshops', 'venues.id', '=', 'workshops.venueId')
-                  ->join('topics', 'topics.topicId', '=', 'workshops.topicId')
-                  ->where('venues.postcode', $post_code)
-                  ->orWhere('venues.suburb', $post_code)
-                  ->select('venues.name',
-                            'workshops.*',
-                            DB::raw('DATEDIFF(workshops.startDate, workshops.endDate) as days'),
-                            DB::raw('TIME_FORMAT(workshops.startTime, "%h:%i%p") as startTime'),
-                            DB::raw('TIME_FORMAT(workshops.endTime, "%h:%i%p") as endTime'),
-                            DB::raw('TIME_FORMAT(workshops.kidsArrive, "%h:%i%p") as arriveTime'),
-                            DB::raw('TIME_FORMAT(workshops.kidsDepart, "%h:%i%p") as departTime'),
-                            'topics.topicname as topic',
-                            'topics.shortDesc as topicDesc',
-                            'topics.age_groups as ages',
-                            'imageUrl as topicImage')
-                  ->limit(5)
+    $post_id = $request->get('post_id');
+    $post = $this->postController->getCoordinate($post_id);
+    $closet_locations = array();
+    $count = 0;
+    if ($post) {
+      $locations = DB::table('locations')->get();
+      foreach($locations as $location) {
+        $lat2 = $location->address_latitude;
+        $lon2 = $location->address_longitude;
+        $dist = $this->postController->calc_dist($post->getData()->lat, $post->getData()->lon, $lat2, $lon2);
+
+        if ($dist > 50 || $count >= 5) {
+          continue ;
+        }
+        $count++;
+        $location->dist = $dist;
+        $location->from = $post->getData();
+        $closet_locations[] = $location;
+      }
+    }
+
+    usort($closet_locations, function($first,$second){
+      return $first->dist < $second->dist;
+    });
+
+    //print_r($closet_locations);
+    $i = 0;
+    $camps = array();
+    foreach($closet_locations as $location) {
+      $camp_data = DB::table('locations')
+                  ->join('camps', 'locations.id', '=', 'camps.venue_id')
+                  ->join('ages', 'camps.age_id', '=', 'ages.id')
+                  ->join('workshops', 'camps.workshop_id', '=', 'workshops.id')
+                  ->leftJoin('enrolments', 'enrolments.camp_id', '=', 'camps.id')
+                  ->select('locations.name',
+                            'camps.*',
+                            DB::raw('DATEDIFF(camps.start_date, camps.end_date) as days'),
+                            DB::raw('TIME_FORMAT(camps.start_time, "%h:%i%p") as startTime'),
+                            DB::raw('TIME_FORMAT(camps.end_time, "%h:%i%p") as endTime'),
+                            DB::raw('TIME_FORMAT(camps.kids_arrive_time, "%h:%i%p") as arriveTime'),
+                            DB::raw('TIME_FORMAT(camps.kids_depart_time, "%h:%i%p") as departTime'),
+                            'ages.age_desc as ages',
+                            'workshops.name as topic',
+                            'workshops.short_desc as topicDesc',
+                            'workshops.image as topicImage',
+                            DB::raw('COUNT(enrolments.id) as sold'))
+                  ->where('locations.id', $location->id)
+                  ->groupBy('camps.id')
                   ->get();
 
-    return view('camps.results', compact('camps'));
+        $camp_data = array_filter($camp_data, function($item){
+          date_default_timezone_set("Australia/Sydney");
+          $today = date('Y-m-d');
+          $now_time = date('H');
+
+          if ($item->start_date > $today) {
+            return true;
+          } else if ($item->start_date == $today && $now_time <= 8) {
+            return true;
+          }
+          return false;
+        });
+        if (count($camp_data)) {
+          $camps[] = array(
+            'location' => $location,
+            'data' => $camp_data
+          );
+        }
+    }
+
+    if (!$camps || !count($camps)) {
+      return redirect('no-camps')->with('postcode', $post->getData()->postcode);
+    } else {
+      return view('camps.results', compact('camps'));
+    }
 	}
 }

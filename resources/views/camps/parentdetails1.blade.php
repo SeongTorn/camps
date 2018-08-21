@@ -17,13 +17,14 @@
         <div class="col-md-5" data-for="name">
           <div class="form-group">
             {!! Form::label('First Name*', '', ['class'=>'form-control-label mbr-fonts-style display-7']) !!}
-            {!! Form::text('firstname', '', ['class' => 'form-control', 'placeholder'=>'Samantha', 'data-form-field'=>'firstname', 'required']) !!}
+            {!! Form::text('first_name', '', ['class' => 'form-control', 'placeholder'=>'Samantha', 'data-form-field'=>'firstname', 'required']) !!}
+            {!! Form::hidden('camp_id', $id) !!}
           </div>
         </div>
         <div class="col-md-5" data-for="name">
           <div class="form-group">
             {!! Form::label('Last Name*', '', ['class'=>'form-control-label mbr-fonts-style display-7']) !!}
-            {!! Form::text('lastname', '', ['class' => 'form-control', 'placeholder'=>'Sample','data-form-field'=>'lastname', 'required']) !!}
+            {!! Form::text('last_name', '', ['class' => 'form-control', 'placeholder'=>'Sample','data-form-field'=>'lastname', 'required']) !!}
           </div>
         </div>
         <div class="col-md-10" data-for="name">
@@ -35,7 +36,7 @@
         <div class="col-md-10" data-for="name">
           <div class="form-group">
             {!! Form::label('Phone Number*', '', ['class'=>'form-control-label mbr-fonts-style display-7']) !!}
-            {!! Form::text('phonenumber', '', ['class' => 'form-control', 'placeholder'=>'0400 000 000','data-form-field'=>'lastname', 'required']) !!}
+            {!! Form::text('phone', '', ['class' => 'form-control', 'placeholder'=>'0400 000 000','data-form-field'=>'lastname', 'required']) !!}
           </div>
         </div>
         <div class="col-md-10" data-for="name">
@@ -86,14 +87,5 @@
   </div>
 </section>
 
-<section class="mbr-section content4 cid-qZCKafpcma" id="content4-96">
-  <div class="container">
-    <div class="media-container-row">
-      <div class="title col-12 col-md-8">
-        <h2 class="align-center pb-3 mbr-fonts-style display-2">&nbsp;</h2>
-        <h3 class="mbr-section-subtitle align-center mbr-light mbr-fonts-style display-5"></h3>
-      </div>
-    </div>
-  </div>
-</section>
+@include('bottomspace')
 @stop

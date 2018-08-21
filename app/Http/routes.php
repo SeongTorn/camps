@@ -54,8 +54,11 @@ Route::group(['middleware' => ['web']], function () {
   Route::get('camps', 'CampsController@index');
   Route::post('camps/search', "CampsController@postSearch");
   Route::get('camps/details/{id}', "CampsController@postCampDetails");
-  Route::get('camps/register', "CampsController@postRegister");
+  Route::get('camps/register/{id}', "CampsController@postRegister");
   Route::post('camps/register2', "CampsController@postRegister2");
+  Route::get('search/autocomplete', 'PostController@autocomplete');
+  Route::post('search/autocomplete', 'PostController@autocomplete');
+  Route::get('no-camps', 'CampsController@toNoCampPage');
 
 	// User
 	Route::get('user/sort/{role}', 'UserController@indexSort');

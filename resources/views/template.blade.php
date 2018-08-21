@@ -21,7 +21,9 @@
 		{{ HTML::style('assets/socicon/css/styles.css') }}
     {{ HTML::style('assets/theme/css/style.css') }}
     {{ HTML::style('assets/gallery/style.css') }}
-		{{ HTML::style('assets/mobirise/css/mbr-additional.css') }}
+    {{ HTML::style('assets/mobirise/css/mbr-additional.css') }}
+
+    {{ HTML::style('https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css') }}
 
 	</head>
 
@@ -141,7 +143,8 @@
 		{!! HTML::script('assets/web/assets/jquery/jquery.min.js') !!}
 		{!! HTML::script('assets/popper/popper.min.js') !!}
 		{!! HTML::script('assets/tether/tether.min.js') !!}
-		{!! HTML::script('assets/bootstrap/js/bootstrap.min.js') !!}
+    {!! HTML::script('assets/bootstrap/js/bootstrap.min.js') !!}
+    {!! HTML::script('https://code.jquery.com/ui/1.12.1/jquery-ui.js') !!}
 
     {!! HTML::script('assets/parallax/jarallax.min.js') !!}
     {!! HTML::script('assets/mbr-tabs/mbr-tabs.js') !!}
@@ -158,5 +161,18 @@
     {!! HTML::script('assets/gallery/player.min.js') !!}
     {!! HTML::script('assets/gallery/script.js') !!}
 
+    <script type="text/javascript">
+      $(function()
+      {
+        $("#post_code").autocomplete({
+          source: "search/autocomplete",
+          minLength: 2,
+          select: function(event, ui) {
+            $('#post_code').val(ui.item.value);
+            $('#post_id').val(ui.item.id);
+          }
+        });
+      });
+    </script>
   </body>
 </html>

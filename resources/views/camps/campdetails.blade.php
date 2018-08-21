@@ -17,7 +17,7 @@
           </p>
         </div>
         <div class="mbr-section-btn">
-          {!! Html::decode(link_to('camps/register','<span class="mbrib-rocket mbr-iconfont mbr-iconfont-btn"></span>Register Now', ['class'=>'btn btn-md btn-secondary display-4'])) !!}
+          {!! Html::decode(link_to('camps/register/'.$camp->id,'<span class="mbrib-rocket mbr-iconfont mbr-iconfont-btn"></span>Register Now', ['class'=>'btn btn-md btn-secondary display-4'])) !!}
         </div>
       </div>
     </div>
@@ -43,7 +43,7 @@
     <div class="media-container-row">
       <div class="title col-12 col-md-8">
         <h2 class="align-center pb-3 mbr-fonts-style display-5">
-          Workshop Description
+            {!! $camp->short_desc !!}
         </h2>
       </div>
     </div>
@@ -54,10 +54,7 @@
   <div class="container">
     <div class="media-container-row">
       <div class="mbr-text col-12 col-md-8 mbr-fonts-style display-7">
-        @for($i = 1; $i <= 5; $i++)
-          <p> {!! $camp->{'desc_'.$i} !!} </p>
-          <p><br></p>
-        @endfor
+        <p> {!! $camp->long_desc !!} </p>
       </div>
     </div>
   </div>
@@ -68,12 +65,12 @@
     <div class="row main justify-content-center">
       <div class="media-container-column col-12 col-lg-3 col-md-4">
         <div class="mbr-section-btn align-left py-4">
-          {!! Html::decode(link_to('camps/register','<span class="mbrib-rocket mbr-iconfont mbr-iconfont-btn"></span>&nbsp;Register Now', ['class'=>'btn btn-secondary display-4'])) !!}
+          {!! Html::decode(link_to('camps/register/'.$camp->id,'<span class="mbrib-rocket mbr-iconfont mbr-iconfont-btn"></span>&nbsp;Register Now', ['class'=>'btn btn-secondary display-4'])) !!}
         </div>
       </div>
       <div class="media-container-column title col-12 col-lg-7 col-md-6">
         <h2 class="align-right mbr-bold mbr-white pb-3 mbr-fonts-style display-2">
-          7 PLACES AVAILABLE
+          {{ $camp->class_capacity - $camp->sold > 0 ? $camp->class_capacity - $camp->sold : 0 }} PLACES AVAILABLE
         </h2>
         <h3 class="mbr-section-subtitle align-right mbr-light mbr-white mbr-fonts-style display-5">
           Get in quick to avoid missing out on all the fun!
@@ -125,7 +122,7 @@
                 Details
               </h4>
               <p class="mbr-section-text  align-center mbr-fonts-style display-7">
-                {!! $camp->startDate !!}<br>Times: {!! $camp->startTime !!} - {!! $camp->endTime !!}
+                {!! $camp->start_date !!}<br>Times: {!! $camp->startTime !!} - {!! $camp->endTime !!}
               </p>
             </div>
           </div>
@@ -140,7 +137,7 @@
                 Course Content
               </h4>
               <p class="mbr-section-text  align-center mbr-fonts-style display-7">
-                Cut down the development time with drag-and-drop website builder. Drop the blocks into the page, edit content inline and publish - no technical skills required.
+                {{ $camp->content }}
               </p>
             </div>
           </div>
@@ -155,7 +152,7 @@
                 Why should your child attend?
               </h4>
               <p class="mbr-section-text  align-center mbr-fonts-style display-7">
-                Choose from the large selection  pre-made blocks - full-screen intro, bootstrap carousel, slider, responsive image gallery with, parallax scrolling, sticky header and more.
+                {{ $camp->why_attend }}
               </p>
             </div>
           </div>
@@ -573,10 +570,7 @@
     <div class="row main justify-content-center">
       <div class="media-container-column col-12 col-lg-3 col-md-4">
         <div class="mbr-section-btn align-left py-4">
-          <a class="btn btn-secondary display-4" href="https://learncode.com.au/camps/register/">
-            <span class="mbrib-rocket mbr-iconfont mbr-iconfont-btn"></span>
-            Enrol Now&nbsp;
-          </a>
+          {!! Html::decode(link_to('camps/register/'.$camp->id,'<span class="mbrib-rocket mbr-iconfont mbr-iconfont-btn"></span>Enrol Now', ['class'=>'btn btn-md btn-secondary display-4'])) !!}
         </div>
       </div>
       <div class="media-container-column title col-12 col-lg-7 col-md-6">
