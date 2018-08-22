@@ -97,7 +97,13 @@ class CampsController extends Controller
       $pDetail->access_code = str_random(10);
       $pDetail->save();
     }
-    return view('camps.child-details');
+
+    $parent = ParentDetail::where('email', $request->get('email'));
+    if ($parent->count()) {
+      return view('camps.child-details', compact('parent'));
+    } else {
+      return "Registeration Failed!";
+    }
   }
 
   public function toSearch(Request $request)

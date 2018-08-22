@@ -8,6 +8,7 @@
 <section class="mbr-section info1 cid-qZCLOV2j2S">
   {!! Form::open(['url'=>'capms/all-children', 'method'=>'post']) !!}
   <div class="container">
+    {!! Form::hidden('parent_id', $parent->id) !!}
     <div class="row justify-content-center content-row">
       <div class="media-container-column col-12 col-lg-3 col-md-4">
         <div class="mbr-section-btn align-right py-4"></div>
@@ -18,13 +19,13 @@
       <div class="col-md-6" data-for="name">
         <div class="form-group">
           {!! Form::label('First Name*', '', ['class'=>'form-control-label mbr-fonts-style display-7']) !!}
-          {!! Form::text('firstname', '', ['class'=>'form-control', 'placeholder'=>'Johnny', 'required']) !!}
+          {!! Form::text('first_name', '', ['class'=>'form-control', 'placeholder'=>'Johnny', 'required']) !!}
         </div>
       </div>
       <div class="col-md-6" data-for="name">
         <div class="form-group">
           {!! Form::label('Last Name*', '', ['class'=>'form-control-label mbr-fonts-style display-7']) !!}
-          {!! Form::text('lastname', '', ['class'=>'form-control', 'placeholder'=>'Sample', 'required']) !!}
+          {!! Form::text('last_name', '', ['class'=>'form-control', 'placeholder'=>'Sample', 'required']) !!}
         </div>
       </div>
       <div class="col-md-12" data-for="name">
@@ -33,7 +34,7 @@
       <div class="col-md-4" data-for="name">
         <div class="form-group">
           {!! Form::label('Day*', '', ['class'=>'form-control-label mbr-fonts-style display-7']) !!}
-          <select class="form-control" name="name" data-form-field="Name" required="">
+          <select class="form-control" name="date_year" data-form-field="Name" required="">
             <option value="" disabled>--- Please Select ---</option>
             @for($i = 1; $i <= 31; $i++)
               <option value="{{ $i }}">{{ $i }}st</option>
@@ -44,13 +45,13 @@
       <div class="col-md-4" data-for="name">
         <div class="form-group">
           {!! Form::label('Month*', '', ['class'=>'form-control-label mbr-fonts-style display-7']) !!}
-          {!! Form::selectMonth('month', 1, ['class'=>'form-control', 'required']); !!}
+          {!! Form::selectMonth('date_month', 1, ['class'=>'form-control', 'required']); !!}
         </div>
       </div>
       <div class="col-md-4" data-for="name">
         <div class="form-group">
           {!! Form::label('Year*', '', ['class'=>'form-control-label mbr-fonts-style display-7']) !!}
-          <select class="form-control" name="name" data-form-field="Name" required="">
+          <select class="form-control" name="date_day" data-form-field="Name" required="">
             <option value="" disabled>--- Please Select ---</option>
             @for($i = 2000; $i <= date('Y'); $i++)
               <option value="{{ $i }}">{{ $i }}</option>
@@ -73,7 +74,7 @@
       <div class="col-md-12" data-for="name">
         <div class="form-group">
           {!! Form::label('Learning Difficulties (if applicable)', '', ['class'=>'form-control-label mbr-fonts-style display-7']) !!}
-          {!! Form::textarea('difficulties', '', ['class'=>'form-control', 'rows'=>2]) !!}
+          {!! Form::textarea('learning_difficulties', '', ['class'=>'form-control', 'rows'=>2]) !!}
         </div>
       </div>
       <div class="col-md-12" data-for="name">
