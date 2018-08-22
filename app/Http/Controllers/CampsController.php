@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Models\ParentDetail;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\PostController;
@@ -24,7 +25,7 @@ class CampsController extends Controller
     return view('camps.create-account');
   }
 
-  public function postCampDetails(Request $request, $id)
+  public function toCampDetails(Request $request, $id)
   {
     $camp = DB::table('camps')
                   ->join('locations', 'locations.id', '=', 'camps.venue_id')
@@ -52,29 +53,54 @@ class CampsController extends Controller
     return view('camps.campdetails')->with('camp', $camp[0]);
   }
 
-  public function postRegister(Request $request, $id)
+  public function toRegister(Request $request)
   {
-    return view('camps.parentdetails1')->with('id', $id);
+    return view('camps.parentdetails1');
   }
 
-  public function postRegister2(Request $request)
+  public function toRegister2(Request $request)
   {
     $pDetail = new ParentDetail;
     $pDetail->first_name = $request->get('first_name');
     $pDetail->last_name = $request->get('last_name');
     $pDetail->email = $request->get('email');
     $pDetail->phone = $request->get('phone');
-    $pDetail->save();
-    //return view('camps.parentdetails2');
+    return view('camps.parentdetails2', compact('pDetail'));
   }
 
-  public function toNoCampPage(Request $request)
+  public function saveRegister(Request $request)
   {
-    $postcode = $request->get('postcode');
-    return redirect('https://url.learncode.com.au/no-camps-in-area/?lead-postcode='.$postcode);
+    $pData = ParentDetail::where('email', $request->get('email'));
+    $isExist = $pData->count();
+
+    if ($isExist) {
+      $pData->update([
+        'first_name'=>$request->get('first_name'),
+        'last_name'=>$request->get('last_name'),
+        'email'=>$request->get('email'),
+        'phone'=>$request->get('phone'),
+        'postcode'=>$request->get('postcode'),
+        'emergency_contact'=>$request->get('emergency_contact'),
+        'heard_about'=>$request->get('heard_about'),
+        'photos_permitted'=>$request->get('photos_permitted'),
+      ]);
+    } else {
+      $pDetail = new ParentDetail;
+      $pDetail->first_name = $request->get('first_name');
+      $pDetail->last_name = $request->get('last_name');
+      $pDetail->email = $request->get('email');
+      $pDetail->phone = $request->get('phone');
+      $pDetail->postcode = $request->get('postcode');
+      $pDetail->emergency_contact = $request->get('emergency_contact');
+      $pDetail->heard_about = $request->get('heard_about');
+      $pDetail->photos_permitted = $request->get('photos_permitted');
+      $pDetail->access_code = str_random(10);
+      $pDetail->save();
+    }
+    return view('camps.child-details');
   }
 
-  public function postSearch(Request $request)
+  public function toSearch(Request $request)
   {
     $post_id = $request->get('post_id');
     $post = $this->postController->getCoordinate($post_id);
@@ -101,7 +127,6 @@ class CampsController extends Controller
       return $first->dist < $second->dist;
     });
 
-    //print_r($closet_locations);
     $i = 0;
     $camps = array();
     foreach($closet_locations as $location) {
@@ -151,5 +176,11 @@ class CampsController extends Controller
     } else {
       return view('camps.results', compact('camps'));
     }
-	}
+  }
+
+  public function toNoCampPage(Request $request)
+  {
+    $postcode = $request->get('postcode');
+    return redirect('https://url.learncode.com.au/no-camps-in-area/?lead-postcode='.$postcode);
+  }
 }

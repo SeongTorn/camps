@@ -18,7 +18,7 @@
           <div class="form-group">
             {!! Form::label('First Name*', '', ['class'=>'form-control-label mbr-fonts-style display-7']) !!}
             {!! Form::text('first_name', '', ['class' => 'form-control', 'placeholder'=>'Samantha', 'data-form-field'=>'firstname', 'required']) !!}
-            {!! Form::hidden('camp_id', $id) !!}
+
           </div>
         </div>
         <div class="col-md-5" data-for="name">

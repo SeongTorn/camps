@@ -35,7 +35,7 @@ class AuthController extends Controller
 	 * @param  Guard  $auth
 	 * @return Response
 	 */
-	public function postLogin(
+	public function toLogin(
 		LoginRequest $request,
 		Guard $auth)
 	{
@@ -54,7 +54,7 @@ class AuthController extends Controller
         }
 
 		$credentials = [
-			$logAccess  => $logValue, 
+			$logAccess  => $logValue,
 			'password'  => $request->input('password')
 		];
 
@@ -67,7 +67,7 @@ class AuthController extends Controller
 				->with('error', trans('front/login.credentials'))
 				->withInput($request->only('log'));
 		}
-			
+
 		$user = $auth->getLastAttempted();
 
 		if($user->confirmed) {
@@ -83,10 +83,10 @@ class AuthController extends Controller
 
 			return redirect('/');
 		}
-		
-		$request->session()->put('user_id', $user->id);	
 
-		return redirect('/auth/login')->with('error', trans('front/verify.again'));			
+		$request->session()->put('user_id', $user->id);
+
+		return redirect('/auth/login')->with('error', trans('front/verify.again'));
 	}
 
 
@@ -97,12 +97,12 @@ class AuthController extends Controller
 	 * @param  App\Repositories\UserRepository $user_gestion
 	 * @return Response
 	 */
-	public function postRegister(
+	public function toRegister(
 		RegisterRequest $request,
 		UserRepository $user_gestion)
 	{
 		$user = $user_gestion->store(
-			$request->all(), 
+			$request->all(),
 			$confirmation_code = str_random(30)
 		);
 
@@ -145,7 +145,7 @@ class AuthController extends Controller
 			return redirect('/')->with('ok', trans('front/verify.resend'));
 		}
 
-		return redirect('/');        
+		return redirect('/');
 	}
-	
+
 }

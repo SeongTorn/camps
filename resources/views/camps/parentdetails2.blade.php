@@ -2,7 +2,12 @@
 
 @section('main')
 <section class="mbr-section info1 cid-qZCLOV2j2S" style="margin-top:145px !important">
-  {!! Form::open(['url' => 'camps/register', 'method' => 'post', 'role' => 'form']) !!}
+  {!! Form::open(['url' => 'camps/saveregister', 'method' => 'post', 'role' => 'form']) !!}
+    {!! Form::hidden('first_name', $pDetail->first_name) !!}
+    {!! Form::hidden('last_name', $pDetail->last_name) !!}
+    {!! Form::hidden('email', $pDetail->email) !!}
+    {!! Form::hidden('phone', $pDetail->phone) !!}
+
     <div class="container">
       <div class="row justify-content-center content-row">
         <div class="media-container-column title col-12 col-lg-7 col-md-6">
@@ -20,22 +25,27 @@
         <div class="col-md-10" data-for="name">
           <div class="form-group">
             {!! Form::label('Backup Emergency Contact*', '', ['class'=>'form-control-label mbr-fonts-style display-7']) !!}
-            {!! Form::text('contact', '', ['class' => 'form-control', 'placeholder'=>'E.g. John Smith 0400 000 000', 'data-form-field'=>'contact', 'required']) !!}
+            {!! Form::text('emergency_contact', $pDetail->email, ['class' => 'form-control', 'placeholder'=>'E.g. John Smith 0400 000 000', 'data-form-field'=>'contact', 'required']) !!}
           </div>
         </div>
         <div class="col-md-10" data-for="name">
           <div class="form-group">
             {!! Form::label('How did you find out about us?*', '', ['class'=>'form-control-label mbr-fonts-style display-7']) !!}
-            {!! Form::select('size', ['saab' => 'Saab', 'mercedes' => 'Mercedes', 'audi' => 'Audi'], 0, ['class'=>'form-control', 'placeholder' => '-- Please Select --', 'required']) !!}
+            {!! Form::select('heard_about', ['1' => 'Saab', '2' => 'Mercedes', '3' => 'Audi'], 0, ['class'=>'form-control', 'placeholder' => '-- Please Select --', 'required']) !!}
           </div>
         </div>
         <div class="col-md-10" data-for="name">
           <div class="form-group">
-            {!! Form::checkbox('vehicle', 'Car', true) !!}
-            I consent to have photos and/or videos taken of my children in accordance with our <a href="https://learncode.com.au/blog/media-policy/">media policy.</a> (optional)<br>
-            {!! Form::checkbox('vehicle', 'Car', true, ['required']) !!}
-            I agree with our <a href="https://learncode.com.au/blog/terms-and-conditions/">terms and conditions</a>.<br>
-            <br>
+            {!! Form::checkbox('photos_permitted', 'Car', true) !!}
+            I consent to have photos and/or videos taken of my children in accordance with our
+            {!! link_to('https://learncode.com.au/blog/media-policy/', 'media policy.') !!}
+            (optional)<br>
+
+            {!! Form::checkbox('agree', 'Car', true, ['required']) !!}
+            I agree with our
+            {!! link_to('https://learncode.com.au/blog/terms-and-conditions/', 'terms and conditions') !!}
+            .<br><br>
+
             <span class="input-group-btn">
               {!! Form::button('Next', ['class' => 'btn btn-primary btn-form display-4', 'type' => 'submit']) !!}
             </span>
@@ -79,14 +89,5 @@
   </div>
 </section>
 
-<section class="mbr-section content4 cid-qZCKafpcma" id="content4-96">
-  <div class="container">
-    <div class="media-container-row">
-      <div class="title col-12 col-md-8">
-        <h2 class="align-center pb-3 mbr-fonts-style display-2">&nbsp;</h2>
-        <h3 class="mbr-section-subtitle align-center mbr-light mbr-fonts-style display-5"></h3>
-      </div>
-    </div>
-  </div>
-</section>
+@include('bottomspace')
 @stop

@@ -137,7 +137,7 @@
                 Course Content
               </h4>
               <p class="mbr-section-text  align-center mbr-fonts-style display-7">
-                {{ $camp->content }}
+                {{ htmlentities($camp->content) }}
               </p>
             </div>
           </div>
