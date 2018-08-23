@@ -17,7 +17,7 @@
           </p>
         </div>
         <div class="mbr-section-btn">
-          {!! Html::decode(link_to('camps/register/'.$camp->id,'<span class="mbrib-rocket mbr-iconfont mbr-iconfont-btn"></span>Register Now', ['class'=>'btn btn-md btn-secondary display-4'])) !!}
+          {!! HTML::decode(link_to('camps/register','<span class="mbrib-rocket mbr-iconfont mbr-iconfont-btn"></span>Register Now', ['class'=>'btn btn-md btn-secondary display-4'])) !!}
         </div>
       </div>
     </div>
@@ -65,7 +65,7 @@
     <div class="row main justify-content-center">
       <div class="media-container-column col-12 col-lg-3 col-md-4">
         <div class="mbr-section-btn align-left py-4">
-          {!! Html::decode(link_to('camps/register/'.$camp->id,'<span class="mbrib-rocket mbr-iconfont mbr-iconfont-btn"></span>&nbsp;Register Now', ['class'=>'btn btn-secondary display-4'])) !!}
+          {!! HTML::decode(link_to('camps/register','<span class="mbrib-rocket mbr-iconfont mbr-iconfont-btn"></span>&nbsp;Register Now', ['class'=>'btn btn-secondary display-4'])) !!}
         </div>
       </div>
       <div class="media-container-column title col-12 col-lg-7 col-md-6">
@@ -570,7 +570,7 @@
     <div class="row main justify-content-center">
       <div class="media-container-column col-12 col-lg-3 col-md-4">
         <div class="mbr-section-btn align-left py-4">
-          {!! Html::decode(link_to('camps/register/'.$camp->id,'<span class="mbrib-rocket mbr-iconfont mbr-iconfont-btn"></span>Enrol Now', ['class'=>'btn btn-md btn-secondary display-4'])) !!}
+          {!! HTML::decode(link_to('camps/register','<span class="mbrib-rocket mbr-iconfont mbr-iconfont-btn"></span>Enrol Now', ['class'=>'btn btn-md btn-secondary display-4'])) !!}
         </div>
       </div>
       <div class="media-container-column title col-12 col-lg-7 col-md-6">

@@ -6,9 +6,9 @@
 @include('topspace')
 
 <section class="mbr-section info1 cid-qZCLOV2j2S">
-  {!! Form::open(['url'=>'capms/all-children', 'method'=>'post']) !!}
+  {!! Form::open(['url'=>'camps/savechilddetail', 'method'=>'post']) !!}
   <div class="container">
-    {!! Form::hidden('parent_id', $parent->id) !!}
+    {!! Form::hidden('parent_id', $parent_id) !!}
     <div class="row justify-content-center content-row">
       <div class="media-container-column col-12 col-lg-3 col-md-4">
         <div class="mbr-section-btn align-right py-4"></div>
@@ -34,7 +34,7 @@
       <div class="col-md-4" data-for="name">
         <div class="form-group">
           {!! Form::label('Day*', '', ['class'=>'form-control-label mbr-fonts-style display-7']) !!}
-          <select class="form-control" name="date_year" data-form-field="Name" required="">
+          <select class="form-control" name="birth_day" data-form-field="Name" required="">
             <option value="" disabled>--- Please Select ---</option>
             @for($i = 1; $i <= 31; $i++)
               <option value="{{ $i }}">{{ $i }}st</option>
@@ -45,13 +45,13 @@
       <div class="col-md-4" data-for="name">
         <div class="form-group">
           {!! Form::label('Month*', '', ['class'=>'form-control-label mbr-fonts-style display-7']) !!}
-          {!! Form::selectMonth('date_month', 1, ['class'=>'form-control', 'required']); !!}
+          {!! Form::selectMonth('birth_month', 1, ['class'=>'form-control', 'required']); !!}
         </div>
       </div>
       <div class="col-md-4" data-for="name">
         <div class="form-group">
           {!! Form::label('Year*', '', ['class'=>'form-control-label mbr-fonts-style display-7']) !!}
-          <select class="form-control" name="date_day" data-form-field="Name" required="">
+          <select class="form-control" name="birth_year" data-form-field="Name" required="">
             <option value="" disabled>--- Please Select ---</option>
             @for($i = 2000; $i <= date('Y'); $i++)
               <option value="{{ $i }}">{{ $i }}</option>

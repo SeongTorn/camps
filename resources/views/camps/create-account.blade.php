@@ -26,7 +26,7 @@
     <div class="media-container-row title">
       <div class="col-12 col-md-8">
         <div class="mbr-section-btn align-center">
-          {!! Html::decode(link_to('camps/create','<span class="mbrib-rocket mbr-iconfont mbr-iconfont-btn"></span>Next', ['class'=>'btn btn-secondary display-4'])) !!}
+          {!! HTML::decode(link_to('camps/create','<span class="mbrib-rocket mbr-iconfont mbr-iconfont-btn"></span>Next', ['class'=>'btn btn-secondary display-4'])) !!}
         </div>
       </div>
     </div>

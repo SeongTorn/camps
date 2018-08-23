@@ -92,13 +92,13 @@ form {
               <p class="mbr-section-text  align-center mbr-fonts-style display-7"><span class="mbri-sale">&nbsp;</span> ${{ $camp->price }}</p>
             </div>
             <div class="mbr-section-btn text-center">
-              {!! Html::decode(link_to('camps/details/'.$camp->id, '&nbsp;&nbsp;&nbsp;&nbsp;<span class="mbrib-star mbr-iconfont mbr-iconfont-btn"></span> Learn More &nbsp;&nbsp;&nbsp;&nbsp;', ['class'=>'btn btn-primary display-4'])) !!}
+              {!! HTML::decode(link_to('camps/details/'.$camp->id, '&nbsp;&nbsp;&nbsp;&nbsp;<span class="mbrib-star mbr-iconfont mbr-iconfont-btn"></span> Learn More &nbsp;&nbsp;&nbsp;&nbsp;', ['class'=>'btn btn-primary display-4'])) !!}
             </div>
             <div class="mbr-section-btn text-center">
               @if($camp->class_capacity - $camp->sold > 0)
-                {!! Html::decode(link_to('camps/register', '&nbsp;&nbsp;<span class="mbrib-rocket mbr-iconfont mbr-iconfont-btn"></span> Register Now &nbsp;&nbsp;', ['class'=>'btn btn-secondary display-4'])) !!}
+                {!! HTML::decode(link_to('camps/register', '&nbsp;&nbsp;<span class="mbrib-rocket mbr-iconfont mbr-iconfont-btn"></span> Register Now &nbsp;&nbsp;', ['class'=>'btn btn-secondary display-4'])) !!}
               @else
-                {!! Html::decode(link_to('camps/details/'.$camp->id,'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="mbri-close mbr-iconfont mbr-iconfont-btn"></span>SOLD OUT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', ['class'=>'btn btn-danger display-4'])) !!}
+                {!! HTML::decode(link_to('camps/details/'.$camp->id,'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="mbri-close mbr-iconfont mbr-iconfont-btn"></span>SOLD OUT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', ['class'=>'btn btn-danger display-4'])) !!}
               @endif
             </div>
             <br>

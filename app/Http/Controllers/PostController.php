@@ -101,9 +101,9 @@ class PostController extends Controller
     }
     $loc1 = DB::table('postcodes')
                 ->where('lat', '<>', 0)
-                ->andWhere('lon', '<>', 0)
-                ->andWhere('postcode', $postcode1)
-                ->andWhere('suburb', $suburb1)
+                ->where('lon', '<>', 0)
+                ->where('postcode', $postcode1)
+                ->where('suburb', $suburb1)
                 ->get();
 
     $extra = "";
@@ -113,9 +113,9 @@ class PostController extends Controller
 
     $loc2 = DB::table('postcodes')
                 ->where('lat', '<>', 0)
-                ->andWhere('lon', '<>', 0)
-                ->andWhere('postcode', $postcode2)
-                ->andWhere('suburb', $suburb2)
+                ->where('lon', '<>', 0)
+                ->where('postcode', $postcode2)
+                ->where('suburb', $suburb2)
                 ->get();
 
     if ($loc1.length != 0 && $loc2.length != 0) {

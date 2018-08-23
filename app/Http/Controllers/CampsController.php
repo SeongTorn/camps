@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\ParentDetail;
+use App\Models\StudentDetail;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\PostController;
+use Carbon\Carbon;
 
 class CampsController extends Controller
 {
@@ -82,7 +84,7 @@ class CampsController extends Controller
         'postcode'=>$request->get('postcode'),
         'emergency_contact'=>$request->get('emergency_contact'),
         'heard_about'=>$request->get('heard_about'),
-        'photos_permitted'=>$request->get('photos_permitted'),
+        'photos_permitted'=>$request->get('photos_permitted') ? $request->get('photos_permitted') : '',
       ]);
     } else {
       $pDetail = new ParentDetail;
@@ -100,10 +102,63 @@ class CampsController extends Controller
 
     $parent = ParentDetail::where('email', $request->get('email'));
     if ($parent->count()) {
-      return view('camps.child-details', compact('parent'));
+      $parent = $parent->get()[0];
+      //$parent_id = $parent->id;
+      //return view('camps.child-details', compact('parent_id'));
+      return redirect('camps/child-details/'.$parent->id);
     } else {
       return "Registeration Failed!";
     }
+  }
+
+  public function toChildDetail(Request $request, $parent_id)
+  {
+    return view('camps.child-details', compact('parent_id'));
+  }
+
+  public function saveChildDetail(Request $request)
+  {
+    $sData = StudentDetail::where('first_name', $request->get('first_name'))
+                            ->where('parent_id', '=', $request->get('parent_id'));
+    $isExist = $sData->count();
+    //$input = array_filter($request->all(), 'strlen');
+    $birthday = Carbon::create($request->get('birth_year'), $request->get('birth_month'), $request->get('birth_day'));
+
+    if ($isExist) {
+      $sData->update([
+        'first_name'=>$request->get('first_name'),
+        'last_name'=>$request->get('last_name'),
+        'date_of_birth'=>$birthday,
+        'school'=>$request->get('school'),
+        'allergies'=>$request->get('allergies') ?: '',
+        'learning_difficulties'=>$request->get('learning_difficulties') ?: '',
+        'parent_id'=>$request->get('parent_id')
+      ]);
+    } else {
+      $sDetail = new StudentDetail;
+      $sDetail->first_name = $request->get('first_name');
+      $sDetail->last_name = $request->get('last_name');
+      $sDetail->date_of_birth = $birthday;
+      $sDetail->school = $request->get('school');
+      $sDetail->allergies = $request->get('allergies') ?: '';
+      $sDetail->learning_difficulties = $request->get('learning_difficulties') ?: '';
+      $sDetail->parent_id = $request->get('parent_id');
+      $sDetail->save();
+    }
+
+    return redirect('camps/all-children/'.$request->get('parent_id'));
+  }
+
+  public function toAllChildren(Request $request, $parent_id)
+  {
+    $children = StudentDetail::where('parent_id', $parent_id)->get();
+    return view('camps.all-children', compact('children', 'parent_id'));
+  }
+
+  public function toSelectCamp(Request $request, $parent_id)
+  {
+    $children = StudentDetail::where('parent_id', $parent_id)->get();
+    return view('camps.select', compact('children'));
   }
 
   public function toSearch(Request $request)

@@ -36,7 +36,7 @@
         </div>
         <div class="col-md-10" data-for="name">
           <div class="form-group">
-            {!! Form::checkbox('photos_permitted', 'Car', true) !!}
+            {!! Form::checkbox('photos_permitted', '1', true) !!}
             I consent to have photos and/or videos taken of my children in accordance with our
             {!! link_to('https://learncode.com.au/blog/media-policy/', 'media policy.') !!}
             (optional)<br>
